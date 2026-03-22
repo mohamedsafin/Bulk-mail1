@@ -60,7 +60,7 @@ function App() {
 
     setStatus(true)
 
-    axios.post("https://bulk-mail1.onrender.com", { msg: msg, email: email })
+    axios.post("https://bulk-mail1.onrender.com/sendmail", { msg: msg, email: email })
       .then(function (data) {
         if (data.data.success) {
           alert("Emails sent successfully")
