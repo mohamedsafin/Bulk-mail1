@@ -60,8 +60,7 @@ function App() {
 
     setStatus(true)
 
-    axios
-      .post("https://bulk-mail1-mu.vercel.app/", { msg: msg, email: email })
+    axios.post("https://bulk-mail1-mu.vercel.app/", { msg: msg, email: email })
       .then(function (data) {
         if (data.data.success) {
           alert("Emails sent successfully")
@@ -117,8 +116,8 @@ function App() {
             {status ? "Sending" : "Send"}
           </button>
         </div>
-         <div className="bg-blue-300 text-white text-center p-32">
-       
+        <div className="bg-blue-300 text-white text-center p-32">
+
         </div>
       </div>
     </>
