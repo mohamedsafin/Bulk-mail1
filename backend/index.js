@@ -56,28 +56,26 @@ app.post("/sendmail", async function (req, res) {
     const user = data.user;
     const pass = data.pass;
 
-    // Create transporter
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: user,
+    pass: pass,
+  },
+});
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: user,
-        pass: pass,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+await transporter.verify();
 
-    // Send emails
-    const sendPromises = validEmails.map((e) =>
-      transporter.sendMail({
-        from: user,
-        to: e,
-        subject: "Bulk Mail",
-        text: msg,
-      })
-    );
+const sendPromises = validEmails.map((e) =>
+  transporter.sendMail({
+    from: user,
+    to: e,
+    subject: "Bulk Mail",
+    text: msg,
+  })
+);
 
     await Promise.all(sendPromises);
 
