@@ -57,13 +57,17 @@ app.post("/sendmail", async function (req, res) {
     const pass = data.pass;
 
     // Create transporter
+
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,          // ✅ IMPORTANT (not 465)
+      secure: false,      // ✅ must be false for 587
       auth: {
         user: user,
         pass: pass,
       },
     });
+    await transporter.verify();
 
     // Send emails
     const sendPromises = validEmails.map((e) =>
