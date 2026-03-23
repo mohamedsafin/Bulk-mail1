@@ -4,11 +4,23 @@ const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 
 const app = express();
-app.use(cors());
+
+// CORS - allow your Vercel frontend
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "*",
+  methods: ["GET", "POST"],
+}));
 app.use(express.json());
 
+// Health check route for Render
+app.get("/", function (req, res) {
+  res.json({ status: "ok", message: "Bulkmail API is running" });
+});
+
 // MongoDB Connection
-mongoose.connect("mongodb://safin:safin123@ac-pk4w2za-shard-00-00.ezad9pk.mongodb.net:27017,ac-pk4w2za-shard-00-01.ezad9pk.mongodb.net:27017,ac-pk4w2za-shard-00-02.ezad9pk.mongodb.net:27017/passkey?ssl=true&replicaSet=atlas-x5nwz9-shard-0&authSource=admin&appName=Cluster0")
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://safin:safin123@ac-pk4w2za-shard-00-00.ezad9pk.mongodb.net:27017,ac-pk4w2za-shard-00-01.ezad9pk.mongodb.net:27017,ac-pk4w2za-shard-00-02.ezad9pk.mongodb.net:27017/passkey?ssl=true&replicaSet=atlas-x5nwz9-shard-0&authSource=admin&appName=Cluster0";
+
+mongoose.connect(MONGODB_URI)
   .then(() => console.log("Connected to DB successfully"))
   .catch((err) => console.log("DB error:", err.message));
 
